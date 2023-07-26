@@ -20,6 +20,7 @@ const articleSchema={
 
 const Article= mongoose.model("Article", articleSchema);
 
+//////////////////////Targeting all articles/////////////////////////////
 
 //To prevent writing the same route again and again
 app.route("/articles")
@@ -48,6 +49,20 @@ app.route("/articles")
     .then(()=>res.send("Successfully deleted all articles from DB!"))
     .catch((err)=>res.send(err));
 });
+
+//////////////////////Targeting specific articles/////////////////////////////
+
+app.route("/articles/:articleTitle")
+.get(
+    function(req,res){
+        const requestedArticle=req.params.articleTitle;
+        Article.findOne({title:requestedArticle})
+        .then((foundArticle)=>res.send(foundArticle))
+        .catch((err)=>res.send(err));
+    }
+)
+.post()
+.delete();
 
 app.listen(3000, function(){
     console.log("Server started at port 3000");
