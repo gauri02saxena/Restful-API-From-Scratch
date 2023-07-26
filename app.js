@@ -96,7 +96,11 @@ app
   })
 
  
-  .delete();
+  .delete(function (req, res) {
+    Article.deleteOne({title:req.params.articleTitle})
+      .then(() => res.send("Successfully deleted article from DB!"))
+      .catch((err) => res.send(err));
+  });
 
 app.listen(3000, function () {
   console.log("Server started at port 3000");
